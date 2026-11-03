@@ -30,7 +30,7 @@ ConvertTo-Json -InputObject @{ c = $c; p = $p } -Depth 3 -Compress
 `;
 
 export async function listListeningPortsWindows(): Promise<ListeningPort[]> {
-  const out = await run("powershell.exe", ["-NoProfile", "-NonInteractive", "-Command", SCRIPT], 20_000);
+  const out = await run("powershell.exe", ["-NoProfile", "-NonInteractive", "-Command", SCRIPT], { timeoutMs: 20_000 });
   const data = JSON.parse(out) as { c: WinConn[] | null; p: WinProc[] | null };
   const procs = new Map((data.p ?? []).map((p) => [p.ProcessId, p]));
 
