@@ -45,12 +45,22 @@ export default function ManagePorts() {
         toast.message = "It ignored SIGTERM";
         toast.primaryAction = {
           title: "Force Kill",
-          onAction: () => terminate(item, "SIGKILL"),
+          onAction: () => forceKill(item),
         };
       }
     } catch (error) {
       await showFailureToast(error, { title: `Couldn't kill ${name}` });
     }
+  }
+
+  async function confirmTerminate(item: ListeningPort) {
+    const confirmed = await confirmAlert({
+      title: `Terminate ${item.process.name}?`,
+      message: `PID ${item.process.pid} on port ${item.port} will be asked to quit with SIGTERM. Unsaved work in it may be lost.`,
+      icon: { source: Icon.Stop, tintColor: Color.Red },
+      primaryAction: { title: "Terminate", style: Alert.ActionStyle.Destructive },
+    });
+    if (confirmed) await terminate(item, "SIGTERM");
   }
 
   async function forceKill(item: ListeningPort) {
@@ -89,7 +99,7 @@ export default function ManagePorts() {
           item={item}
           showDetail={showDetail}
           onToggleDetail={() => setShowDetail((v) => !v)}
-          onTerminate={() => terminate(item, "SIGTERM")}
+          onTerminate={() => confirmTerminate(item)}
           onForceKill={() => forceKill(item)}
           onRefresh={refresh}
         />
@@ -154,6 +164,7 @@ function PortItem(props: {
             <Action
               title="Terminate Process"
               icon={Icon.Stop}
+              style={Action.Style.Destructive}
               shortcut={Keyboard.Shortcut.Common.Remove}
               onAction={props.onTerminate}
             />
