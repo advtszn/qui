@@ -21,10 +21,13 @@ import { stackIcon } from "~/lib/stack";
 
 export default function ManagePorts() {
   const [showDetail, setShowDetail] = useState(true);
-  const { ports: loaded, isLoading, refresh, whileKilling } = usePorts();
+  const { ports: loaded, error, isLoading, refresh, whileKilling } = usePorts();
   const ports = loaded ?? [];
   // Until the first scan returns, show only the loading bar, not an empty state.
   const hasLoaded = loaded !== undefined;
+  // A failed scan with nothing to show gets an error state, not an empty list.
+  // If ports are already listed, a failed background poll keeps them.
+  const failed = error !== undefined && ports.length === 0;
 
   async function terminate(item: ListeningPort, signal: "SIGTERM" | "SIGKILL") {
     const { pid, name } = item.process;
@@ -66,7 +69,20 @@ export default function ManagePorts() {
       isShowingDetail={showDetail && ports.length > 0}
       searchBarPlaceholder="Filter by port, process, project or PID"
     >
-      {hasLoaded && !isLoading && <List.EmptyView icon={Icon.Network} title="No listening ports" />}
+      {failed ? (
+        <List.EmptyView
+          icon={{ source: Icon.Warning, tintColor: Color.Red }}
+          title="Couldn't list ports"
+          description={error.message}
+          actions={
+            <ActionPanel>
+              <Action title="Retry" icon={Icon.ArrowClockwise} onAction={refresh} />
+            </ActionPanel>
+          }
+        />
+      ) : (
+        hasLoaded && !isLoading && <List.EmptyView icon={Icon.Network} title="No listening ports" />
+      )}
       {ports.map((item) => (
         <PortItem
           key={item.id}
