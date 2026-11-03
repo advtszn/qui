@@ -4,10 +4,10 @@ import { links } from "~/data/links";
 
 <section class="hero container">
   <h1>
-    What's running<br />on <span class="mark">:3000</span>?
+    Who's listening<br />on <span class="mark">:3000</span>?
   </h1>
   <p class="lede">
-    <em>Qui</em>, French for “who”, is a Raycast extension that shows every listening port, what's behind it and why it's running.
+    <em>Qui</em> <span class="say" title="Pronounced “kee”">/ki/</span>, French for “who”, is a Raycast extension that shows every listening port, what's behind it and why it's running.
     Then frees it in one keystroke.
   </p>
   <div class="ctas">
@@ -59,6 +59,12 @@ import { links } from "~/data/links";
     color: var(--ink-soft);
     font-size: 19px;
     font-weight: 500;
+  }
+
+  .say {
+    color: var(--ink-faint);
+    font-weight: 400;
+    white-space: nowrap;
   }
 
   .ctas {
