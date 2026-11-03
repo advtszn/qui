@@ -3,7 +3,7 @@
   "name": "portishead",
   "title": "Portishead",
   "description": "Inspect listening ports, see what's behind them and terminate them",
-  "icon": "extension-icon.png",
+  "icon": "icon.png",
   "author": "advtszn",
   "platforms": [
     "macOS",
@@ -17,9 +17,16 @@
     {
       "name": "manage-ports",
       "title": "Manage Ports",
-      "subtitle": "Find and terminate processes using ports",
       "description": "Inspect listening ports, identify processes and free up ports",
-      "mode": "view"
+      "mode": "view",
+      "keywords": [
+        "portishead",
+        "port",
+        "kill",
+        "lsof",
+        "localhost",
+        "process"
+      ]
     }
   ],
   "tools": [],
