@@ -21,7 +21,10 @@ import { stackIcon } from "~/lib/stack";
 
 export default function ManagePorts() {
   const [showDetail, setShowDetail] = useState(true);
-  const { ports = [], isLoading, refresh, whileKilling } = usePorts();
+  const { ports: loaded, isLoading, refresh, whileKilling } = usePorts();
+  const ports = loaded ?? [];
+  // Until the first scan returns, show only the loading bar, not an empty state.
+  const hasLoaded = loaded !== undefined;
 
   async function terminate(item: ListeningPort, signal: "SIGTERM" | "SIGKILL") {
     const { pid, name } = item.process;
@@ -63,7 +66,7 @@ export default function ManagePorts() {
       isShowingDetail={showDetail && ports.length > 0}
       searchBarPlaceholder="Filter by port, process, project or PID"
     >
-      <List.EmptyView icon={Icon.Network} title="No listening ports" />
+      {hasLoaded && !isLoading && <List.EmptyView icon={Icon.Network} title="No listening ports" />}
       {ports.map((item) => (
         <PortItem
           key={item.id}

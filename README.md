@@ -9,12 +9,12 @@ An [aube](https://aube.sh) workspace (`aube-workspace.yaml`):
 | Package          | What                                            |
 | ---------------- | ----------------------------------------------- |
 | `apps/extension` | The Raycast extension (`qui`)                   |
-| `apps/site`      | The landing page: static Astro, no UI framework |
+| `apps/www`       | The landing page: static Astro, no UI framework |
 
 ```sh
 aube install
 aube run dev      # develop the extension in Raycast
-aube run site     # run the site locally
+aube run www      # run the site locally
 aube run build    # build everything
 aube run lint     # Biome, across the whole workspace
 ```

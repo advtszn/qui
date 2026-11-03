@@ -6,7 +6,17 @@
     "useIgnoreFile": true
   },
   "files": {
-    "includes": ["**", "!**/raycast-env.d.ts", "!**/assets", "!**/public", "!**/dist", "!**/.astro"]
+    "includes": [
+      "**",
+      "!**/raycast-env.d.ts",
+      "!**/assets",
+      "!**/public",
+      "!**/dist",
+      "!**/.astro",
+      "!**/aube-lock.yaml",
+      "!**/design",
+      "!**/package-lock.json"
+    ]
   },
   "formatter": {
     "enabled": true,

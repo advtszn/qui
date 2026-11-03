@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "aube -F qui run dev",
     "build": "aube -r run build",
-    "site": "aube -F site run dev",
+    "www": "aube -F www run dev",
     "lint": "biome check",
     "fix-lint": "biome check --write",
     "format": "biome format --write"
