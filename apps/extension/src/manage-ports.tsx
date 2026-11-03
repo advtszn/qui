@@ -155,7 +155,6 @@ function PortItem(props: {
             <Action
               title={showDetail ? "Hide Details" : "Show Details"}
               icon={Icon.Sidebar}
-              shortcut={Keyboard.Shortcut.Common.ToggleQuickLook}
               onAction={props.onToggleDetail}
             />
             {proc.cwd && <Action.ShowInFinder title="Show Working Directory" path={proc.cwd} />}
