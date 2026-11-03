@@ -60,13 +60,11 @@ export default function ManagePorts() {
         ? {
             title: `Terminate ${name}?`,
             message: `PID ${pid} on port ${item.port} will be asked to quit with SIGTERM. Unsaved work in it may be lost.`,
-            icon: { source: Icon.Stop, tintColor: Color.Red },
             primaryAction: { title: "Terminate", style: Alert.ActionStyle.Destructive },
           }
         : {
             title: `End ${name}?`,
             message: `PID ${pid} on port ${item.port} will be stopped immediately, without a chance to clean up.`,
-            icon: { source: Icon.XMarkCircle, tintColor: Color.Red },
             primaryAction: { title: "End Process", style: Alert.ActionStyle.Destructive },
           },
     );
@@ -77,7 +75,6 @@ export default function ManagePorts() {
     const confirmed = await confirmAlert({
       title: `Force kill ${item.process.name}?`,
       message: `PID ${item.process.pid} on port ${item.port} will be stopped immediately with SIGKILL, without a chance to clean up.`,
-      icon: { source: Icon.XMarkCircle, tintColor: Color.Red },
       primaryAction: { title: "Force Kill", style: Alert.ActionStyle.Destructive },
     });
     if (confirmed) await terminate(item, "SIGKILL");
