@@ -1,9 +1,9 @@
-import { listListeningPortsDarwin } from "./darwin";
-import { detectStack } from "./stack";
-import type { ListeningPort } from "./types";
-import { listListeningPortsWindows } from "./windows";
+import { listListeningPortsDarwin } from "~/lib/darwin";
+import { detectStack } from "~/lib/stack";
+import type { ListeningPort } from "~/lib/types";
+import { listListeningPortsWindows } from "~/lib/windows";
 
-export type { ListeningPort, ProcessInfo, Stack, StackItem } from "./types";
+export type { ListeningPort, ProcessInfo, Stack, StackItem } from "~/lib/types";
 
 export async function listListeningPorts(): Promise<ListeningPort[]> {
   const ports = await (process.platform === "win32" ? listListeningPortsWindows() : listListeningPortsDarwin());

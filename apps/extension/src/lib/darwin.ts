@@ -1,7 +1,7 @@
 import path from "node:path";
-import { run } from "./exec";
-import { findGitInfo } from "./git";
-import type { ListeningPort, ProcessInfo } from "./types";
+import { run } from "~/lib/exec";
+import { findGitInfo } from "~/lib/git";
+import type { ListeningPort, ProcessInfo } from "~/lib/types";
 
 // Absolute paths: Raycast doesn't launch extensions with the user's shell PATH.
 const LSOF = "/usr/sbin/lsof";

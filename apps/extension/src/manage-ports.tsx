@@ -15,9 +15,9 @@ import {
 } from "@raycast/api";
 import { showFailureToast } from "@raycast/utils";
 import { useState } from "react";
-import { usePorts } from "./hooks/use-ports";
-import { killProcess, type ListeningPort } from "./lib/ports";
-import { stackIcon } from "./lib/stack";
+import { usePorts } from "~/hooks/use-ports";
+import { killProcess, type ListeningPort } from "~/lib/ports";
+import { stackIcon } from "~/lib/stack";
 
 export default function ManagePorts() {
   const [showDetail, setShowDetail] = useState(true);

@@ -1,6 +1,6 @@
 import { showFailureToast } from "@raycast/utils";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { type ListeningPort, listListeningPorts } from "../lib/ports";
+import { type ListeningPort, listListeningPorts } from "~/lib/ports";
 
 const POLL_INTERVAL_MS = 2500;
 

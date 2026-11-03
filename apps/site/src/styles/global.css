@@ -1,0 +1,122 @@
+:root {
+  /* Paper, navy ink and a coral highlighter. */
+  --bg: #f4f1ec;
+  --bg-raised: #e9e5dd;
+  --bg-hover: #dfdad0;
+  --line: #d9d3c8;
+  --ink: #16203a;
+  --ink-soft: #5a6278;
+  --ink-faint: #a3a8b5;
+  --mark: #ff9e8c;
+  --accent: #30d158;
+  --shadow: color-mix(in oklab, var(--ink) 45%, transparent);
+
+  --radius: 14px;
+  --shadow-btn: 0 10px 24px -8px var(--shadow);
+  --font: "Archivo Variable", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --system: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+  /* Archivo's width axis runs 62–125%; display text is set condensed. */
+  --condensed: 70%;
+  --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, monospace;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 17px;
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+img,
+svg {
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+kbd {
+  font-family: var(--font);
+}
+
+.container {
+  width: min(1040px, 100% - 32px);
+  margin-inline: auto;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 48px;
+  padding: 0 20px;
+  border-radius: var(--radius);
+  font-weight: 650;
+  font-stretch: 88%;
+  font-size: 16px;
+  white-space: nowrap;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    background 0.15s ease;
+}
+
+.btn:active {
+  transform: translateY(1px) scale(0.98);
+}
+
+.btn-primary {
+  background: var(--ink);
+  color: var(--bg);
+  box-shadow: var(--shadow-btn);
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: var(--bg-raised);
+  color: var(--ink);
+}
+
+.btn-secondary:hover {
+  background: var(--bg-hover);
+}
+
+.btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    /* biome-ignore lint/complexity/noImportantStyles: must beat component styles to honour reduced motion */
+    transition: none !important;
+    /* biome-ignore lint/complexity/noImportantStyles: must beat component styles to honour reduced motion */
+    animation: none !important;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}

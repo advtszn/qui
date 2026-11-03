@@ -1,6 +1,6 @@
 import path from "node:path";
-import { run } from "./exec";
-import type { ListeningPort, ProcessInfo } from "./types";
+import { run } from "~/lib/exec";
+import type { ListeningPort, ProcessInfo } from "~/lib/types";
 
 interface WinConn {
   LocalAddress: string;

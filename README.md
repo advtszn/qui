@@ -1,13 +1,22 @@
-# Portishead
+# Qui
 
-Inspect listening ports and terminate the processes behind them, right from Raycast.
+See every listening port, what's behind it and why it's running, then free it in one keystroke. A Raycast extension.
 
-- Every listening TCP port with its process, project, git branch, uptime and memory
-- Runtime and framework detection (Node.js, Bun, Python, Next.js, Astro, Vite, Express, …)
-- The chain of processes that started each server
-- Terminate (`⌃X`) or force kill (`⌃⇧X`) a process
-  - Refreshes every few seconds while open
+## Workspace
 
-## Credits
+An [aube](https://aube.sh) workspace (`aube-workspace.yaml`):
 
-- Runtime and framework logos: [Simple Icons](https://simpleicons.org/), [CC0](https://github.com/simple-icons/simple-icons/blob/develop/LICENSE.md). Brand logos remain trademarks of their owners.
+| Package          | What                                            |
+| ---------------- | ----------------------------------------------- |
+| `apps/extension` | The Raycast extension (`qui`)                   |
+| `apps/site`      | The landing page: static Astro, no UI framework |
+
+```sh
+aube install
+aube run dev      # develop the extension in Raycast
+aube run site     # run the site locally
+aube run build    # build everything
+aube run lint     # Biome, across the whole workspace
+```
+
+Both packages use a `~/*` import alias for their `src/` directory.

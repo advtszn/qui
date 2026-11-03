@@ -1,0 +1,99 @@
+---
+// Icons are drawn on a 48px grid with a 3px stroke to match each other.
+const features = [
+  {
+    title: "Every listening port",
+    icon: `<rect x="6" y="12" width="36" height="24" rx="5"/><path d="M15 12v6M21 12v6M27 12v6M33 12v6"/><path d="M19 36v-6h10v6"/>`,
+  },
+  {
+    title: "Knows your stack",
+    icon: `<path d="M24 5 41 14.5v19L24 43 7 33.5v-19z"/><path d="M7 14.5 24 24l17-9.5M24 24v19"/>`,
+  },
+  {
+    title: "Why it's running",
+    icon: `<rect x="14" y="4" width="20" height="10" rx="3"/><rect x="14" y="34" width="20" height="10" rx="3"/><path d="M24 14v20"/><path d="m18 26 6 6 6-6"/>`,
+  },
+  {
+    title: "Free it in one key",
+    icon: `<rect x="7" y="11" width="34" height="26" rx="6"/><path d="M19 19l10 10M29 19 19 29"/>`,
+  },
+  {
+    title: "Live while open",
+    icon: `<path d="M40 24a16 16 0 1 1-4.7-11.3"/><path d="M40 8v8h-8"/>`,
+  },
+  {
+    title: "Git aware",
+    icon: `<circle cx="14" cy="11" r="4"/><circle cx="14" cy="37" r="4"/><circle cx="34" cy="17" r="4"/><path d="M14 15v18M34 21c0 8-10 7-18 13"/>`,
+  },
+  {
+    title: "Nothing to install",
+    icon: `<path d="M8 15 24 6l16 9v18l-16 9-16-9z"/><path d="m17 24 5 5 9-10"/>`,
+  },
+  {
+    title: "Fast. Like, 40ms.",
+    icon: `<path d="M27 4 10 27h13l-3 17 17-23H24z"/>`,
+  },
+];
+---
+
+<section class="features container" id="features">
+  {
+    features.map((f) => (
+      <div class="feature">
+        <svg
+          viewBox="0 0 48 48"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="3"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+          set:html={f.icon}
+        />
+        <h2>{f.title}</h2>
+      </div>
+    ))
+  }
+</section>
+
+<style>
+  .features {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 56px 24px;
+    padding: 80px 0 40px;
+  }
+
+  .feature {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    text-align: center;
+  }
+
+  .feature svg {
+    width: 52px;
+    height: 52px;
+  }
+
+  h2 {
+    max-width: 180px;
+    margin: 0;
+    font-size: 27px;
+    font-weight: 750;
+    font-stretch: var(--condensed);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+  }
+
+  @media (max-width: 760px) {
+    .features {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 44px 16px;
+    }
+    h2 {
+      font-size: 19px;
+    }
+  }
+</style>

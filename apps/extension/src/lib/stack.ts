@@ -1,7 +1,7 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import type { Image } from "@raycast/api";
-import type { ProcessInfo, Stack, StackItem } from "./types";
+import type { ProcessInfo, Stack, StackItem } from "~/lib/types";
 
 // Logos come from simple-icons (CC0), recoloured with each brand's colour and
 // stored in assets/stack. Logos too dark for dark mode have a `-dark` variant.
