@@ -16,7 +16,7 @@ import {
 import { showFailureToast } from "@raycast/utils";
 import { useState } from "react";
 import { usePorts } from "~/hooks/use-ports";
-import { killProcess, type ListeningPort } from "~/lib/ports";
+import { killProcess, type ListeningPort, supportsGracefulTerminate } from "~/lib/ports";
 import { stackIcon } from "~/lib/stack";
 
 export default function ManagePorts() {
@@ -31,7 +31,7 @@ export default function ManagePorts() {
 
   async function terminate(item: ListeningPort, signal: "SIGTERM" | "SIGKILL") {
     const { pid, name } = item.process;
-    const verb = signal === "SIGKILL" ? "Force killing" : "Terminating";
+    const verb = !supportsGracefulTerminate ? "Ending" : signal === "SIGKILL" ? "Force killing" : "Terminating";
     const toast = await showToast({ style: Toast.Style.Animated, title: `${verb} ${name} (PID ${pid})` });
     try {
       const result = await whileKilling(pid, killProcess(pid, signal));
@@ -54,12 +54,22 @@ export default function ManagePorts() {
   }
 
   async function confirmTerminate(item: ListeningPort) {
-    const confirmed = await confirmAlert({
-      title: `Terminate ${item.process.name}?`,
-      message: `PID ${item.process.pid} on port ${item.port} will be asked to quit with SIGTERM. Unsaved work in it may be lost.`,
-      icon: { source: Icon.Stop, tintColor: Color.Red },
-      primaryAction: { title: "Terminate", style: Alert.ActionStyle.Destructive },
-    });
+    const { name, pid } = item.process;
+    const confirmed = await confirmAlert(
+      supportsGracefulTerminate
+        ? {
+            title: `Terminate ${name}?`,
+            message: `PID ${pid} on port ${item.port} will be asked to quit with SIGTERM. Unsaved work in it may be lost.`,
+            icon: { source: Icon.Stop, tintColor: Color.Red },
+            primaryAction: { title: "Terminate", style: Alert.ActionStyle.Destructive },
+          }
+        : {
+            title: `End ${name}?`,
+            message: `PID ${pid} on port ${item.port} will be stopped immediately, without a chance to clean up.`,
+            icon: { source: Icon.XMarkCircle, tintColor: Color.Red },
+            primaryAction: { title: "End Process", style: Alert.ActionStyle.Destructive },
+          },
+    );
     if (confirmed) await terminate(item, "SIGTERM");
   }
 
@@ -161,19 +171,21 @@ function PortItem(props: {
           </ActionPanel.Section>
           <ActionPanel.Section>
             <Action
-              title="Terminate Process"
-              icon={Icon.Stop}
+              title={supportsGracefulTerminate ? "Terminate Process" : "End Process"}
+              icon={supportsGracefulTerminate ? Icon.Stop : Icon.XMarkCircle}
               style={Action.Style.Destructive}
               shortcut={Keyboard.Shortcut.Common.Remove}
               onAction={props.onTerminate}
             />
-            <Action
-              title="Force Kill Process"
-              icon={Icon.XMarkCircle}
-              style={Action.Style.Destructive}
-              shortcut={Keyboard.Shortcut.Common.RemoveAll}
-              onAction={props.onForceKill}
-            />
+            {supportsGracefulTerminate && (
+              <Action
+                title="Force Kill Process"
+                icon={Icon.XMarkCircle}
+                style={Action.Style.Destructive}
+                shortcut={Keyboard.Shortcut.Common.RemoveAll}
+                onAction={props.onForceKill}
+              />
+            )}
           </ActionPanel.Section>
           <ActionPanel.Section>
             <Action.CopyToClipboard
