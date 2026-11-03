@@ -141,7 +141,7 @@ function PortItem(props: {
         <ActionPanel>
           <ActionPanel.Section>
             {/* Raycast binds ↵ to the first action, so keep it harmless. */}
-            <Action.OpenInBrowser title="Open in Browser" url={`http://localhost:${item.port}`} />
+            <Action.OpenInBrowser title="Open in Browser" url={browserUrl(item)} />
             <Action
               title={showDetail ? "Hide Details" : "Show Details"}
               icon={Icon.Sidebar}
@@ -277,12 +277,25 @@ function projectName(item: ListeningPort): string | undefined {
   return undefined;
 }
 
+const isLoopback = (a: string) => a === "localhost" || a.startsWith("127.") || a === "[::1]" || a === "::1";
+const isWildcard = (a: string) => a === "*" || a === "0.0.0.0" || a === "[::]" || a === "::";
+
 function bindScope(addresses: string[]): { label: string; color: Color } {
-  const local = (a: string) => a === "localhost" || a.startsWith("127.") || a === "[::1]" || a === "::1";
-  if (addresses.every(local)) return { label: "localhost", color: Color.Green };
-  if (addresses.some((a) => a === "*" || a === "0.0.0.0" || a === "[::]" || a === "::"))
-    return { label: "network", color: Color.Orange };
+  if (addresses.every(isLoopback)) return { label: "localhost", color: Color.Green };
+  if (addresses.some(isWildcard)) return { label: "network", color: Color.Orange };
   return { label: addresses[0], color: Color.Blue };
+}
+
+/**
+ * Where to open the server: `localhost` when it listens on loopback or every
+ * interface, otherwise the specific address it's bound to (IPv6 bracketed).
+ */
+function browserUrl(item: ListeningPort): string {
+  if (item.addresses.some((a) => isLoopback(a) || isWildcard(a))) return `http://localhost:${item.port}`;
+  // Drop any IPv6 zone (`%en0`), which browsers don't accept in URLs.
+  const address = item.addresses[0].replace(/%[^\]]*/, "");
+  const host = address.includes(":") && !address.startsWith("[") ? `[${address}]` : address;
+  return `http://${host}:${item.port}`;
 }
 
 function processIcon(item: ListeningPort): Image.ImageLike {
